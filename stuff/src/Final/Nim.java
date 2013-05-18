@@ -47,13 +47,14 @@ public class Nim {
 		return ones;
 	}
 	public void gameTurn() {
-		int tester[] = piles;
+		int tester[] = new int[piles.length];
+		for(int i=0;i<piles.length;i++)
+			tester[i]=piles[i];
 		int bin;
 		int dec;
 		int ones;
 		for (int i = 0; i < tester.length; i++) {
 			while (tester[i] > -1) {
-				System.out.println(Arrays.toString(tester));
 				bin = binarySum(tester);
 				dec = decimalSum(tester);
 				ones = numOnes(tester);
