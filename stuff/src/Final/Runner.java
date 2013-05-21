@@ -17,17 +17,14 @@ public class Runner {
 				System.out.println("Error, please enter valid data.");
 			}
 		}
+		System.out.println(nim.toString());
 		while (nim.decimalSum(nim.pile()) != 0) {
 			nim.personTurn();
 			if (nim.decimalSum(nim.pile()) == 0) {
 				System.out.println("GGWP");
 				break;
 			}
-			nim.gameTurn();
-			if (nim.decimalSum(nim.pile()) == 0) {
-				System.out.println("You have won somehow. Time to look at the code again.");
-				break;
-			}
+			nim.consoleTurn();
 		}
 	}
 }
