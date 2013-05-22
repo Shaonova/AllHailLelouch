@@ -38,7 +38,7 @@ public class NimGUI extends JFrame {
 						.println("How many sticks should each row be able to hold?");
 				maxSize = scan.nextInt();
 				if ((rows % 2 == 0 && maxSize == 1)
-						|| (rows % 2 == 1 && maxSize == 2)) {
+						|| (rows % 2 == 1 && maxSize == 2)||maxSize==-1) {
 					System.out.println("Please choose different dimensions.");
 				} else {
 					nim = new Nim(rows, maxSize);

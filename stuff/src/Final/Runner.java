@@ -16,7 +16,7 @@ public class Runner {
 						.println("How many sticks should each row be able to hold?");
 				int maxSticks = scan.nextInt();
 				if ((rowCount % 2 == 0 && maxSticks == 1)
-						|| (rowCount % 2 == 1 && maxSticks == 2)) {
+						|| (rowCount % 2 == 1 && maxSticks == 2)||maxSticks==-1) {
 					System.out.println("Please enter different dimensions.");
 				} else {
 					nim = new Nim(rowCount, maxSticks);
