@@ -2,32 +2,49 @@ package Final;
 import java.util.Scanner;
 public class Nim {
 	private int[] piles;
+	private int maxStick;
+	private int maxBinaryLength;
 	public Nim(int rowCount, int maxSticks) {
 		piles = new int[rowCount];
+		maxStick=maxSticks;
+		maxBinaryLength=(int)(Math.log(maxStick)/Math.log(2)+1);
 		for (int i = 0; i < rowCount; i++) {
 			piles[i] = (int) (Math.random() * (maxSticks - 1) + 1);
 		}
-		while (binarySum(piles) != 0) {
-			for (int i = 0; i < rowCount; i++) {
+		int bin=binarySum(piles);
+		int dec=decimalSum(piles);
+		int ones=numOnes(piles);
+		while(!((bin == 0 && ones != dec) || (bin == 1 && ones == dec))) {
+			for (int i = 0; i < rowCount; i++) 
 				piles[i] = (int) (Math.random() * (maxSticks - 1) + 1);
-			}
+			bin=binarySum(piles);
+			dec=decimalSum(piles);
+			ones=numOnes(piles);
 		}
 	}
 	public int[] pile() {
 		return piles;
 	}
+	private int toBinary(int dec)
+	{
+		return Integer.parseInt(Integer.toBinaryString(dec));
+	}
 	private int binarySum(int[] board) {
-		int firstSum = 0;
-		int finalSum = 0;
-		for (int i = 0; i < board.length; i++)
-			firstSum += Integer.parseInt(Integer.toBinaryString(board[i]));
-		int lim = (""+firstSum).length();
-		for (int i = 0; i < lim; i++) {
-			if (firstSum % 2 == 1)
-				finalSum += Math.pow(2, i);
-			firstSum /= 10;
+		int[] binary=new int[board.length];
+		int binarySum=0;
+		for(int a=0;a<binary.length;a++)
+			binary[a]=toBinary(board[a]);
+		for(int i=0;i<maxBinaryLength;i++){
+			int count=0;
+			for(int j=0;j<binary.length;j++){
+				if(binary[j]%2==1)
+					count++;
+				binary[j]/=10;
+			}
+			if(count%2==1)
+				binarySum+=Math.pow(2,i);
 		}
-		return finalSum;
+		return binarySum;
 	}
 	public int decimalSum(int[] board) {
 		int sum = 0;
@@ -88,11 +105,6 @@ public class Nim {
 	public void personTurn(int row, int amount) {
 		piles[row] -= amount;
 	}
-
-	public boolean isWin(){
-		return decimalSum(piles) == 0;
-	}
-
 	public void gameTurn() {
 		int tester[] = new int[piles.length];
 		for (int i = 0; i < piles.length; i++)

@@ -22,13 +22,10 @@ public class NimGUI extends JFrame {
 	private int rows, maxSize;
 
 	public NimGUI() {
-		//Default Operations
 		super("Beat Me");
 		e = new Event();
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		//Finding board maxes
 		scan = new Scanner(System.in);
 		nim=null;
 		 boolean valid=false;
@@ -38,27 +35,26 @@ public class NimGUI extends JFrame {
 					rows = scan.nextInt();
 					System.out.println("How many sticks should each row be able to hold?");
 					maxSize = scan.nextInt();
+					if((rows%2==0 && maxSize==1) || (rows%2==1 && maxSize==2)){
+						System.out.println("Please choose different dimensions.");
+					}
+					else{
 					 nim = new Nim(rows, maxSize);
-					 valid=true;
+					 valid=true;}
 				} catch (Exception e) {
 					System.out.println("Error, please enter valid data.");
 				}
 		 }
-		//end board maxes
 		setLayout(new GridBagLayout());
 		c = new GridBagConstraints();
-
 		sticks = new JButton[rows][maxSize];
 		for(int r=0; r < rows; r++){
 			makeRow(r,nim.pile()[r]);
-			addToGrid(r, maxSize+1,new JLabel("Row "+r));
+			addToGrid(r, maxSize+1,new JLabel("Row "+(r+1)));
 		}
 		finishTurn = new JButton("Finish Turn?");
 		addToGrid(rows,maxSize+1,finishTurn);
-
-		//more Default Operations
 		pack();
-	
 		 }
 
 	public void makeRow(int rowNum, int rowWidth) {
@@ -86,21 +82,26 @@ public class NimGUI extends JFrame {
 	public static void main(String[] args) {
 		new NimGUI();
 	}
-
 	public class Event implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			if (arg0.getSource()==finishTurn){
+				if(finishTurn.getText().equals("GGWP")){
+					setVisible(false);
+					new NimGUI();
+				}	
 				if(!isLegal())
 					finishTurn.setText("Try Again");
 				else{
 					playerInput();
-					if(nim.decimalSum(nim.pile())==0)
+					if(nim.decimalSum(nim.pile())==0){
 						finishTurn.setText("GGWP");
+					System.out.println("Press the GGWP button to play again.");
+					}
 					else{
 					gameUpdate();
 					finishTurn.setText("Finish Turn?");
-					}
+					}	
 				}
 			}
 			stickListener(arg0.getSource());
