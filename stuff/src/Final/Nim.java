@@ -4,22 +4,22 @@ import java.util.Scanner;
 
 public class Nim {
 	private int[] piles;
-	private int maxStick;
 	private int maxBinaryLength;
+	private Scanner scan;
 
 	public Nim(int rowCount, int maxSticks) {
 		piles = new int[rowCount];
-		maxStick = maxSticks;
-		maxBinaryLength = (int) (Math.log(maxStick) / Math.log(2) + 1);
+		scan = new Scanner(System.in);
+		maxBinaryLength = (int) (Math.log(maxSticks) / Math.log(2) + 1);
 		for (int i = 0; i < rowCount; i++) {
-			piles[i] = (int) (Math.random() * (maxSticks - 1) + 1);
+			piles[i] = (int) (Math.random() * maxSticks + 1);
 		}
 		int bin = binarySum(piles);
 		int dec = decimalSum(piles);
 		int ones = numOnes(piles);
 		while (!((bin == 0 && ones != dec) || (bin == 1 && ones == dec))) {
 			for (int i = 0; i < rowCount; i++)
-				piles[i] = (int) (Math.random() * (maxSticks - 1) + 1);
+				piles[i] = (int) (Math.random() * maxSticks + 1);
 			bin = binarySum(piles);
 			dec = decimalSum(piles);
 			ones = numOnes(piles);
@@ -30,17 +30,14 @@ public class Nim {
 		return piles;
 	}
 
-	private int toBinary(int dec) {
-		return Integer.parseInt(Integer.toBinaryString(dec));
-	}
-
 	private int binarySum(int[] board) {
 		int[] binary = new int[board.length];
 		int binarySum = 0;
+		int count;
 		for (int a = 0; a < binary.length; a++)
-			binary[a] = toBinary(board[a]);
+			binary[a] = Integer.parseInt(Integer.toBinaryString(board[a]));
 		for (int i = 0; i < maxBinaryLength; i++) {
-			int count = 0;
+			count = 0;
 			for (int j = 0; j < binary.length; j++) {
 				if (binary[j] % 2 == 1)
 					count++;
@@ -69,11 +66,9 @@ public class Nim {
 
 	public void consoleTurn() {
 		int tester[] = new int[piles.length];
+		int bin, dec, ones;
 		for (int i = 0; i < piles.length; i++)
 			tester[i] = piles[i];
-		int bin;
-		int dec;
-		int ones;
 		for (int i = 0; i < tester.length; i++) {
 			while (tester[i] > -1) {
 				bin = binarySum(tester);
@@ -92,15 +87,14 @@ public class Nim {
 	}
 
 	public void personTurn() {
-		Scanner scan = new Scanner(System.in);
+		int row, amount;
 		try {
 			System.out
 					.println("Please enter which row you would like to remove from\n");
-			int row = scan.nextInt();
-
+			row = scan.nextInt();
 			System.out
 					.println("Please enter how many sticks you would like to remove\n");
-			int amount = scan.nextInt();
+			amount = scan.nextInt();
 			if (piles[row - 1] - amount < 0 && amount > 0) {
 				System.out.println("Error, please start turn over.");
 				personTurn();
@@ -122,9 +116,9 @@ public class Nim {
 
 	public void gameTurn() {
 		int tester[] = new int[piles.length];
+		int bin, dec, ones;
 		for (int i = 0; i < piles.length; i++)
 			tester[i] = piles[i];
-		int bin, dec, ones;
 		for (int i = 0; i < tester.length; i++) {
 			while (tester[i] > -1) {
 				bin = binarySum(tester);
