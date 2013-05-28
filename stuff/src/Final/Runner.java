@@ -18,8 +18,8 @@ public class Runner {
 					System.out
 							.println("How many sticks should each row be able to hold?");
 					maxSticks = scan.nextInt();
-					if ((rowCount % 2 == 0 && maxSticks == 1)
-							|| maxSticks < 1) {
+					if ((rowCount % 2 == 0 && maxSticks == 1) || maxSticks < 1
+							|| rowCount < 1) {
 						System.out
 								.println("Please enter different dimensions.");
 					} else {
