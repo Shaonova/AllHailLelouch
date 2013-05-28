@@ -116,8 +116,8 @@ public class NimR2 extends JFrame {
 					try {
 						row = Integer.parseInt(rows.getText());
 						maxSize = Integer.parseInt(max.getText());
-						if ((row % 2 == 0 && maxSize == 1) || maxSize == -1) {
-							button.setText("Invalid Dimensions");
+						if ((row % 2 == 0 && maxSize == 1) || maxSize < 1) {
+							button.setText("Nice try, but no.");
 							return;
 						} else {
 							nimMaker();
